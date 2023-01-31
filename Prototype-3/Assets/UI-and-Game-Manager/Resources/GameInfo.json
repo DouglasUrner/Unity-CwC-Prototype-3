@@ -1,12 +1,12 @@
 {
-  "title":        "Title (from Resources/GameInfo.json)",
+  "title":        "Prototype 3",
   "description":  "Description (from Resources/GameInfo.json).",
-  "gameOverMessage": "Game over message (from Resources/GameInfo.json).",
-  "startButtonLabel": "Start (from GameInfo.json)",
+  "gameOverMessage": "Game over!",
+  "startButtonLabel": "Start",
   "quitButtonLabel": "Quit (from GameInfo.json)",
   "replayButtonLabel": "Replay (from GameInfo.json)",
-  "displayQuitButton": true,
+  "displayQuitButton": false,
   "displayScore": true,
-  "displayHealth": true,
+  "displayHealth": false,
   "initialHealth": 5
 }
