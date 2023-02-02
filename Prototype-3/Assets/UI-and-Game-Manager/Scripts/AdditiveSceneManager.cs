@@ -24,9 +24,8 @@ public class AdditiveSceneManager : MonoBehaviour
     {
       Debug.LogErrorFormat($"buildIndex ({buildIndex}) out of bounds");
       return null;
-
-      var scene = SceneManager.GetSceneByBuildIndex(buildIndex);
-      return scene.name;
     }
+    var scene = SceneManager.GetSceneByBuildIndex(buildIndex);
+    return scene.name;
   }
 }
