@@ -4,16 +4,78 @@ using UnityEngine;
 
 public class Sensor : MonoBehaviour
 {
-    private GameManager gameManager;
+  // What to do on a collision.
+  public enum CollisionAction
+  {
+    endGame,
+    addPoints,
+    subPoints,
+    addHealth,
+    subHealth
+  }
 
-    // Start is called before the first frame update
-    void Start()
+  public enum CollisionEvent
+  {
+    onEnter,
+    onExit
+  }
+  public CollisionAction action = CollisionAction.endGame;
+  public int amount = 1;
+  public CollisionEvent collisionEvent = CollisionEvent.onEnter;
+  private GameManager gameManager;
+
+  // Start is called before the first frame update
+  void Start()
+  {
+    gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>(); 
+  }
+
+  void OnTriggerEnter()
+  {
+    if (collisionEvent == CollisionEvent.onEnter)
     {
-       gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>(); 
+      TriggerAction();
     }
-
-    void OnTriggerEnter()
+    else
     {
+      return;
+    }
+  }
+
+  void OnTriggerExit()
+  {
+    if (collisionEvent == CollisionEvent.onExit)
+    {
+      TriggerAction();
+    }
+    else
+    {
+      return;
+    }
+  }
+
+  void TriggerAction()
+  {
+    switch (action)
+    {
+      case CollisionAction.endGame:
         gameManager.gameEnding = true;
+        break;
+      case CollisionAction.addPoints:
+        gameManager.AddPoints(amount);
+        break;
+      case CollisionAction.subPoints:
+        gameManager.AddPoints(-amount);
+        break;
+      case CollisionAction.addHealth:
+        gameManager.IncreaseHealth(amount);
+        break;
+      case CollisionAction.subHealth:
+        gameManager.DecreaseHealth(amount);
+        break;
+      default:
+        Debug.Log($"unhandled CollisionAction: {action}");
+        break;
     }
+  }
 }
