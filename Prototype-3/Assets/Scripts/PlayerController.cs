@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
   public float gravityModifier = 1.0f;
 
   private Rigidbody playerRb;
+  private Animator playerAnim;
   private GameManager gameManager;
 
   // Start is called before the first frame update
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     gameManager = GameObject.Find("Game Manager").
       GetComponent<GameManager>();
     playerRb = GetComponent<Rigidbody>();
+    playerAnim = GetComponent<Animator>();
+
     playerRb.AddForce(Vector3.up * jumpForce/4, ForceMode.Impulse);
   }
 
@@ -33,8 +36,9 @@ public class PlayerController : MonoBehaviour
     // Jump if we're on the ground and space is pressed.
     if (Input.GetKeyDown(KeyCode.Space) && onGround && !gameOver)
     {
-      playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
       onGround = false;
+      playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+      playerAnim.SetTrigger("Jump_trig");
     }
   }
 
@@ -46,6 +50,10 @@ public class PlayerController : MonoBehaviour
     }
     if (c.gameObject.CompareTag("Obstacle"))
     {
+      // Debug.Log("Game Over");
+      playerAnim.SetBool("Death_b", true);
+      playerAnim.SetInteger("DeathType_int", 1);
+      
       gameOver = true;
       gameManager.gameEnding = true;
     }
