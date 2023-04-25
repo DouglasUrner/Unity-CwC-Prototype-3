@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+  public ParticleSystem dirtParticle;
+  public ParticleSystem explosionParticle;
+
   public bool gameOver = false;
   public bool onGround = true;
 
@@ -39,6 +42,7 @@ public class PlayerController : MonoBehaviour
       onGround = false;
       playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
       playerAnim.SetTrigger("Jump_trig");
+      dirtParticle.Stop();
     }
   }
 
@@ -47,13 +51,17 @@ public class PlayerController : MonoBehaviour
     if (c.gameObject.CompareTag("Ground"))
     {
       onGround = true;
+
+      dirtParticle.Play();
     }
     if (c.gameObject.CompareTag("Obstacle"))
     {
       // Debug.Log("Game Over");
+      dirtParticle.Stop();
+      explosionParticle.Play();
       playerAnim.SetBool("Death_b", true);
       playerAnim.SetInteger("DeathType_int", 1);
-      
+
       gameOver = true;
       gameManager.gameEnding = true;
     }
