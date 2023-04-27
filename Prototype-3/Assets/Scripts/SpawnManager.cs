@@ -6,7 +6,8 @@ public class SpawnManager : MonoBehaviour
 {
   // Defaults, tune in the Inspector.
   public float startDelay = 1.0f;
-  public float spawnInterval = 2.0f;
+  public float spawnIntervalMin = 1.0f;
+  public float spawnIntervalMax = 3.0f;
   public Vector3 spawnRange = new Vector3(10, 0, 0);
 
   public GameObject[] objects;  // Initialize in Inspector
@@ -19,7 +20,7 @@ public class SpawnManager : MonoBehaviour
   {
     playerController = GameObject.Find("Player").
       GetComponent<PlayerController>();
-    InvokeRepeating("SpawnRandomObject", startDelay, spawnInterval);
+    Invoke("SpawnRandomObject", startDelay);
   }
 
   // Update is called once per frame
@@ -29,5 +30,7 @@ public class SpawnManager : MonoBehaviour
 
     var i = Random.Range(0, objects.Length);
     Instantiate(objects[i], transform.position, objects[i].transform.rotation);
+
+    Invoke("SpawnRandomObject", Random.Range(spawnIntervalMin, spawnIntervalMax));
   }
 }
